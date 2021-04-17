@@ -14,21 +14,19 @@ public class ShowOptionsController : MonoBehaviour
     // Variables
     #region Variables
 
+    [Header("Variables")]
     [SerializeField] private int numOptions = 3;
     [SerializeField] private string prefabPath = "";
+
+    private List<NumberObject> currOptions = new List<NumberObject>();
 
 
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        // Cap numOptions to max size of the database
+        numOptions = Mathf.Clamp(numOptions, 0, MainController.Instance.DBSize);
 
     }
 
@@ -37,13 +35,27 @@ public class ShowOptionsController : MonoBehaviour
 
     public void AddOptions(List<int> options)
     {
+        currOptions.Clear();
         gameObject.SetActive(true);
 
+        // For each value, create an option object to be shown
         foreach (var item in options)
         {
             NumberObject obj = Instantiate(Resources.Load(prefabPath) as GameObject, transform).GetComponent<NumberObject>();
-            obj.Init(item);
+            obj.Init(item, () =>
+            {
+                SelectOption(obj.NumValue, obj);
+            });
+
+            currOptions.Add(obj);
         }
+    }
+
+    public void SelectOption(int value, NumberObject selectedOption)
+    {
+        Debug.Log("Option Selected: " + value);
+        selectedOption.CheckResult(value == MainController.Instance.CurrAnswer);
+
     }
 
     #endregion

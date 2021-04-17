@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class NumberObject : MonoBehaviour
     #region Variables
 
     [Header("UI")]
+    [SerializeField] private Color32 correctColor;
+    [SerializeField] private Color32 incorrectColor;
     [SerializeField] private TextMeshProUGUI numText;
     [SerializeField] private Button button;
 
@@ -24,13 +27,14 @@ public class NumberObject : MonoBehaviour
     [SerializeField] private float animTime = 2f;
 
     private CanvasGroup canvas;
+    private Action callback = null;
 
     #endregion
 
     // Public 
     #region Public
 
-    public void Init(int val)
+    public void Init(int val, Action call)
     {
         canvas = GetComponent<CanvasGroup>();
 
@@ -49,6 +53,17 @@ public class NumberObject : MonoBehaviour
             // On finish, enable interaction
             button.interactable = true;
         }));
+
+        // Add a callback to call it when button clicked
+        callback = call;
+        button.onClick.AddListener(() => { call?.Invoke(); });
+    }
+
+    public void CheckResult(bool correct)
+    {
+        numText.color = correct
+            ? correctColor
+            : incorrectColor;
     }
 
     #endregion

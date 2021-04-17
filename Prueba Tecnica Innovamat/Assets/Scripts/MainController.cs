@@ -25,6 +25,8 @@ public class MainController : MonoBehaviour
     #region Properties
 
     public static MainController Instance { get { return instance; } }
+    public int DBSize { get { return database.numbers.Length; } }
+    public int CurrAnswer { get { return currentNumber.value; } }
 
     #endregion
 
