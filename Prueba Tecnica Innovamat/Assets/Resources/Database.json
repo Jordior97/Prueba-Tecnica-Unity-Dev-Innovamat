@@ -1,0 +1,48 @@
+{
+  "numbers": [
+    {
+      "text": "zero",
+      "value": 0
+    },
+    {
+      "text": "uno",
+      "value": 1
+    },
+    {
+      "text": "dos",
+      "value": 2
+    },
+    {
+      "text": "tres",
+      "value": 3
+    },
+    {
+      "text": "cuatro",
+      "value": 4
+    },
+    {
+      "text": "cinco",
+      "value": 5
+    },
+    {
+      "text": "seis",
+      "value": 6
+    },
+    {
+      "text": "siete",
+      "value": 7
+    },
+    {
+      "text": "ocho",
+      "value": 8
+    },
+    {
+      "text": "nueve",
+      "value": 9
+    },
+    {
+      "text": "diez",
+      "value": 10
+    }
+  ]
+}
