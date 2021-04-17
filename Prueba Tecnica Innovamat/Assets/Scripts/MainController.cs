@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
+    // Database ----------------------
     [Serializable]
     public class NumbersDatabase
     {
@@ -18,23 +19,32 @@ public class MainController : MonoBehaviour
         public string text;
         public int value;
     }
+    // ------------------------------
+
+    // Properties
+    #region Properties
+
+    public static MainController Instance { get { return instance; } }
+
+    #endregion
 
     // Variables
     #region Variables
 
-    //[Header("UI")]
-    //[SerializeField] private TextMeshProUGUI numberTitle;
-
     [Header("Database")]
     [SerializeField] private TextAsset jsonDatabase;
 
-
-    // Controllers
     [Header("Controllers")]
     [SerializeField] private ShowNumberController numToShow;
+    [SerializeField] private ShowOptionsController optionsToShow;
+
 
     private NumbersDatabase database;
     private Number currentNumber;
+
+    private static MainController instance = null;
+
+    // Events
 
     #endregion
 
@@ -43,6 +53,8 @@ public class MainController : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         // Load database from json
         database = JsonUtility.FromJson<NumbersDatabase>(jsonDatabase.text);
     }
@@ -55,12 +67,44 @@ public class MainController : MonoBehaviour
 
     #endregion
 
+    // Public 
+    #region Public
+
+    public void ShowOptions()
+    {
+        // Generate random numbers equivalent to numOptions -1
+        // We need to show the correct option too
+        int numOptions = optionsToShow.NumOptions;
+
+        List<int> numbers = new List<int>();
+        numbers.Add(currentNumber.value);
+
+        while (numbers.Count < numOptions)
+        {
+            Number randomOption = GetRandomNumber();
+            if (!numbers.Contains(randomOption.value))
+            {
+                numbers.Add(randomOption.value);
+            }
+        }
+       
+        numbers.Shuffle();
+
+        optionsToShow.AddOptions(numbers);
+    }
+
+    #endregion
+
     // Private 
     #region Private
 
+    private Number GetRandomNumber()
+    {
+        return database.numbers[UnityEngine.Random.Range(0, database.numbers.Length - 1)];
+    }
+
     private void RandomNumber()
     {
-        // TODO: check different from previous one
         int index = UnityEngine.Random.Range(0, database.numbers.Length - 1);
         if (currentNumber != null)
         {
@@ -69,11 +113,11 @@ public class MainController : MonoBehaviour
                 index = UnityEngine.Random.Range(0, database.numbers.Length - 1);
             }
         }
-
+        // Set the correct option as current number
         currentNumber = database.numbers[index];
-        numToShow.ShowNumber(currentNumber.text);
-        //numberTitle.text = currentNumber.text;
 
+        // Show number UI functionality
+        numToShow.ShowNumber(currentNumber.text);
 
         Debug.Log("Current Number: " + currentNumber.text + " / " + currentNumber.value);
     }

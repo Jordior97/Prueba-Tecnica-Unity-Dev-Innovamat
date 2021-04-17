@@ -32,11 +32,39 @@ public class ShowNumberController : MonoBehaviour
 
     public void ShowNumber(string numStr)
     {
+        // Set number text
         numberText.GetComponent<TextMeshProUGUI>().text = numStr;
-        StartCoroutine(GetComponent<AnimHelper>().AnimCoroutine(animInTime, (alpha) =>
+
+        // Start fade in animation
+        StartCoroutine(AnimHelper.Instance.AnimCoroutine(animInTime, (alpha) =>
         {
             numberText.GetComponent<CanvasGroup>().alpha = alpha;
-        }, null));
+        },
+        () =>
+        {
+            // On finish, start fade out animation
+            StartCoroutine(HideNumber());
+        }));
+    }
+
+    #endregion
+
+    // Coroutines
+    #region Coroutines
+
+    private IEnumerator HideNumber()
+    {
+        // Wait animIdle seconds
+        yield return new WaitForSeconds(animIdleTime);
+
+        StartCoroutine(AnimHelper.Instance.AnimCoroutine(animOutTime, (alpha) =>
+        {
+            numberText.GetComponent<CanvasGroup>().alpha = 1 - alpha;
+        },
+        //On finish notify the controller to spawn the options
+        () => {
+            MainController.Instance.ShowOptions();
+        }));
     }
 
     #endregion

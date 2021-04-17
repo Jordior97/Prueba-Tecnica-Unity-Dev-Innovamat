@@ -15,14 +15,6 @@ public class AnimHelper : MonoBehaviour
     // Coroutines
     #region Coroutines
 
-    //public static IEnumerator DoAnimation(float time, Action<float> action, Action callback)
-    //{
-    //    //AnimHelper instance = GetComponent<AnimHelper>();
-    //    IEnumerator coroutine = instance.AnimCoroutine(time, action, callback);
-    //    instance.StartCoroutine(coroutine);
-    //    return coroutine;
-    //}
-
     public IEnumerator AnimCoroutine(float time, Action<float> action, Action callback)
     {
         float currentTime = 0;
@@ -35,7 +27,6 @@ public class AnimHelper : MonoBehaviour
         action.Invoke(1);
         callback?.Invoke();
     }
-
 
     #endregion
 }
