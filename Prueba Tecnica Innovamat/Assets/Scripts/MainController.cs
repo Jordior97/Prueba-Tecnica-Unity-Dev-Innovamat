@@ -32,6 +32,9 @@ public class MainController : MonoBehaviour
 
     // Variables
     #region Variables
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI correctAnswersText;
+    [SerializeField] private TextMeshProUGUI incorrectAnswersText;
 
     [Header("Database")]
     [SerializeField] private TextAsset jsonDatabase;
@@ -44,9 +47,14 @@ public class MainController : MonoBehaviour
     private NumbersDatabase database;
     private Number currentNumber;
 
+    private int correctAns = 0;
+    private int incorrectAns = 0;
+
     private static MainController instance = null;
 
     // Events
+    public delegate void OnResultChecked(bool answer, NumberObject selectedOption);
+    public event OnResultChecked ResultChecked;
 
     #endregion
 
@@ -61,10 +69,9 @@ public class MainController : MonoBehaviour
         database = JsonUtility.FromJson<NumbersDatabase>(jsonDatabase.text);
     }
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-            RandomNumber();
+        RandomNumber();
     }
 
     #endregion
@@ -89,10 +96,29 @@ public class MainController : MonoBehaviour
                 numbers.Add(randomOption.value);
             }
         }
-       
+
         numbers.Shuffle();
 
         optionsToShow.AddOptions(numbers);
+    }
+
+    public void UpdateScore(bool correct)
+    {
+        if (correct)
+        {
+            correctAns++;
+            correctAnswersText.text = correctAns.ToString("F0");
+        }
+        else
+        {
+            incorrectAns++;
+            incorrectAnswersText.text = incorrectAns.ToString("F0");
+        }
+    }
+
+    public void StartAgain()
+    {
+        StartCoroutine(RoundEndedCoroutine());
     }
 
     #endregion
@@ -122,6 +148,27 @@ public class MainController : MonoBehaviour
         numToShow.ShowNumber(currentNumber.text);
 
         Debug.Log("Current Number: " + currentNumber.text + " / " + currentNumber.value);
+    }
+
+    #endregion
+
+    // Coroutines
+    #region Coroutines
+
+    private IEnumerator RoundEndedCoroutine()
+    {
+        yield return new WaitUntil(() => optionsToShow.IsEmpty());
+        RandomNumber();
+    }
+
+    #endregion
+
+    // Events
+    #region Events
+
+    public void CheckResultEnded(bool correct, NumberObject selOpt)
+    {
+        ResultChecked?.Invoke(correct, selOpt);
     }
 
     #endregion

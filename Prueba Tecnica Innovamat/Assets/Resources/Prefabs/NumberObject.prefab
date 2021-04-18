@@ -240,6 +240,7 @@ MonoBehaviour:
   numText: {fileID: 1914978398467338970}
   button: {fileID: 1914978399462558977}
   animTime: 2
+  waitTime: 0
 --- !u!1 &1914978399462558979
 GameObject:
   m_ObjectHideFlags: 0

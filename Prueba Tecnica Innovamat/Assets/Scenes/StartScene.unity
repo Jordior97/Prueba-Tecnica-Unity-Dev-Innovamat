@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 152901923}
   - component: {fileID: 152901922}
   m_Layer: 5
-  m_Name: Score
+  m_Name: SuccessScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,7 +389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 206.66, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &152901922
@@ -636,6 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59fe9a2993eed434f910622c018fea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correctAnswersText: {fileID: 152901924}
+  incorrectAnswersText: {fileID: 1823660760}
   jsonDatabase: {fileID: 4900000, guid: 5c7c368517b6c7742a36b81be61f2968, type: 3}
   numToShow: {fileID: 1544857347}
   optionsToShow: {fileID: 103492740}
@@ -1551,7 +1553,7 @@ GameObject:
   - component: {fileID: 1823660759}
   - component: {fileID: 1823660758}
   m_Layer: 5
-  m_Name: Score
+  m_Name: FailScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1573,7 +1575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 206.66, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1823660758
