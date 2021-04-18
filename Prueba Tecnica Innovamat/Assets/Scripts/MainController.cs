@@ -121,6 +121,11 @@ public class MainController : MonoBehaviour
         StartCoroutine(RoundEndedCoroutine());
     }
 
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
+
     #endregion
 
     // Private 
